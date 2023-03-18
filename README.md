@@ -1,1 +1,1 @@
-# -Binary-Search-Trees-javascript
+# Binary-Search-Trees-javascript
