@@ -1,8 +1,8 @@
-class Node {
+class node {
     constructor(data, left = null, right = null) {
         this.data = data;
-        this.right = left;
         this.left = left;
+        this.right = right;
     }
 }
 class BST {
@@ -10,89 +10,116 @@ class BST {
         this.root = null;
     }
     add(data) {
-        const node = this.root;
-        if (!node) {
-            this.root = new Node(data)
-            return;
+        if (!this.root) {
+            this.root = new node(data);
+            return this;
         }
-        const searchTree = function (node) {
-            if (data < node.data) {
-                if (!node.left) {
-                    node.left = new Node(data);
-                    return;
+        else {
+            let temp = this.root;
+            let searchTree = function (temp) {
+                if (temp.data < data) {
+                    if (!temp.right) {
+                        temp.right = new node(data);
+                        return;
+                    }
+                    else {
+                        return searchTree(temp.right);
+                    }
                 }
-                return searchTree(node.left);
+                else if (data < temp.data) {
+                    if (!temp.left) {
+                        temp.left = new node(data);
+                    }
+                    else {
+                        searchTree(temp.left);
+                    }
+                }
+                else {
+                    return null;
+                }
             }
-            if (!node.right) {
-                node.right = new Node(data);
-                return;
-            }
-            return searchTree(node.right);
-        }
-        return searchTree(node);
-    }
-}
-function mergeSort(arr) {
-    if (arr.length > 1) {
-        let mid = Math.round(arr.length / 2);
-        let left = arr.slice(0, mid);
-        let right = arr.slice(mid,);
-        mergeSort(left);
-        mergeSort(right);
-        let i = 0, k = 0, j = 0;
-        while (i < left.length && j < right.length) {
-            if (left[i] < right[j]) {
-                arr[k] = left[i]
-                k += 1
-                i += 1
-            }
-            else {
-                arr[k] = right[j]
-                k += 1
-                j += 1
-            }
-        }
-        while (i < left.length) {
-            arr[k] = left[i]
-            k += 1
-            i += 1
-        }
-        while (j < right.length) {
-            arr[k] = right[j]
-            k += 1
-            j += 1
+            return searchTree(temp);
         }
     }
 }
-let tree = new BST();
-let arr = [5, 6, 7, 2, 4, 2, 45, 23, 6, 28, 2, 4, 1, 51, 84, 3, 53, 3, 2, 36, 29, 34, 62, 71, 93];
-arr = arr.filter((item, index) => arr.indexOf(item) === index);
-mergeSort(arr);
-function dataSender(arr) {
-    if (arr.length > 1) {
-        let mid = Math.round(arr.length / 2)
-        tree.add(arr[Math.round(arr.length / 2)])
-        dataSender(arr.slice(0, mid))
-        dataSender(arr.slice(mid + 1,))
-    }
-    if (arr.length == 1) {
-        tree.add(arr[0])
-    }
-}
-dataSender(arr)
+
+
+/* FUNCTIONS ---------START----------*/
+
 const prettyPrint = (node, prefix = '', isLeft = true) => {
-    let div = document.getElementById("d");
-    let p = document.createElement("p");
     if (node.right !== null) {
         prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
-    const s = `${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`
-    console.log(s);
-    p.textContent = s;
-    div.appendChild(p)
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
     if (node.left !== null) {
         prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
 }
-prettyPrint(tree.root)
-console.log(arr)
+
+function mergeSort(arr) {
+    if (arr.length > 1) {
+        let mid = Math.round(arr.length / 2);
+        let left = arr.slice(0, mid);
+        let right = arr.slice(mid);
+        mergeSort(left);
+        mergeSort(right);
+        let i = 0, j = 0, k = 0;
+        while (left.length > i && right.length > j) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i += 1;
+            }
+            else {
+                arr[k] = right[j];
+                j += 1;
+            }
+            k += 1
+        }
+        while (i < left.length) {
+            arr[k] = left[i];
+            i += 1;
+            k += 1;
+        }
+        while (j < right.length) {
+            arr[k] = right[j];
+            j += 1;
+            k += 1;
+        }
+    }
+}
+var arr = [];
+function takeAction() {
+    console.clear();
+    let data = document.getElementById("data").value;
+    arr = data.split(",")
+    arr = arr.map(function (x) {
+        return parseInt(x, 10);
+    })
+    var tree = new BST();
+    mergeSort(arr);
+    arr = arr.filter((item, pos) => {
+        return arr.indexOf(item) == pos;
+    });
+    console.log(arr);
+    document.getElementById("d").textContent = "open console to see result";
+    document.getElementById("data").value = "";
+    function dataSender(arr) {
+        if (arr.length > 1) {
+            let mid = Math.round(arr.length / 2);
+            if (arr.length % 2 != 0) {
+                mid = Math.round(arr.length / 2) - 1;
+            };
+            console.log(arr[mid]);
+            tree.add(arr[mid]);
+            dataSender(arr.slice(mid + 1,))
+            dataSender(arr.slice(0, mid))
+
+        }
+        if (arr.length == 1) {
+            tree.add(arr[0])
+        }
+    }
+    /* FUNCTIONS ---------END--------- */
+    dataSender(arr)
+    prettyPrint(tree.root);
+}
