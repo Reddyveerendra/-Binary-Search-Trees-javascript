@@ -191,6 +191,25 @@ class BST {
         traverseInOrder(this.root);
         return result;
     }
+    levelOrder() {
+        let result = [];
+        let Q = [];
+        if (this.root) {
+            Q.push(this.root)
+            while (Q.length) {
+                let node = Q.shift();
+                result.push(node.data);
+                if (node.left) {
+                    Q.push(node.left)
+                }
+                if (node.right) {
+                    Q.push(node.right)
+                }
+            }
+            return result
+        }
+        return;
+    }
 }
 
 var tree = new BST();
@@ -272,6 +291,7 @@ function addElement() {
     console.log(tree.inOrder())
     console.log(tree.preOrder())
     console.log(tree.postOrder())
+    console.log(tree.levelOrder())
     prettyPrint(tree.root);
 }
 
