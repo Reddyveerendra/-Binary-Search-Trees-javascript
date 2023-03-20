@@ -312,10 +312,13 @@ function orderElements() {
 
 function findElement() {
     let element = document.getElementById("element").value;
-    element = parseInt(element);
-    console.clear();
-    console.log(`POSITION OF ${element} is : `, tree.find(element));
-    prettyPrint(tree.root);
+    element = parseInt(element)
+    if (element != NaN) {
+        ;
+        console.clear();
+        console.log(`POSITION OF ${element} is : `, tree.find(element));
+        prettyPrint(tree.root);
+    }
 }
 function addArray() {
     let a = document.getElementById("arr").value;
