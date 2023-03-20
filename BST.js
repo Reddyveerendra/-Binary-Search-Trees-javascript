@@ -143,8 +143,8 @@ class BST {
         if (node == null) {
             return -1;
         }
-        let left = this.findMinHeight(node.left);
-        let right = this.findMinHeight(node.right);
+        let left = this.findMaxHeight(node.left);
+        let right = this.findMaxHeight(node.right);
         if (left > right) {
             return left + 1;
         }
@@ -285,13 +285,7 @@ function addElement() {
     if (!arr.includes(element)) {
         arr.push(element);
     }
-    console.log(element);
     tree.add(element);
-    console.log(arr);
-    console.log(tree.inOrder())
-    console.log(tree.preOrder())
-    console.log(tree.postOrder())
-    console.log(tree.levelOrder())
     prettyPrint(tree.root);
 }
 
@@ -305,14 +299,42 @@ function delElement() {
         const i = arr.indexOf(element);
         arr.splice(i, 1);
         tree.del(element);
-        console.log(arr);
         prettyPrint(tree.root);
     }
-    console.log(tree.isBalanced());
 }
 
-/* FUNCTION CALLS */
+function orderElements() {
+    console.log("INORDER : ", tree.inOrder());
+    console.log("PREORDER : ", tree.preOrder());
+    console.log("POSTORDER : ", tree.postOrder());
+    console.log("LEVELORDER : ", tree.levelOrder());
+}
 
+function findElement() {
+    let element = document.getElementById("element").value;
+    element = parseInt(element);
+    console.clear();
+    console.log(`POSITION OF ${element} is : `, tree.find(element));
+    prettyPrint(tree.root);
+}
+
+function reBalance() {
+    console.clear()
+    tree = new BST();
+
+    mergeSort(arr);
+
+    dataSender(arr);
+
+    prettyPrint(tree.root);
+}
+/* FUNCTION CALLS */
+function depth() {
+    console.log('DEPTH : ', tree.findMaxHeight())
+}
+function isBalanced() {
+    console.log('isBalanced : ', tree.isBalanced())
+}
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 mergeSort(arr);
@@ -320,5 +342,3 @@ mergeSort(arr);
 dataSender(arr);
 
 prettyPrint(tree.root);
-
-console.log(tree.isBalanced());
