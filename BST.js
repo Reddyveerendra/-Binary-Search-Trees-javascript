@@ -317,7 +317,18 @@ function findElement() {
     console.log(`POSITION OF ${element} is : `, tree.find(element));
     prettyPrint(tree.root);
 }
-
+function addArray() {
+    let a = document.getElementById("arr").value;
+    a = a.split(",")
+    let i = 0;
+    a.forEach(element => {
+        a[i] = parseInt(element);
+        i++;
+    });
+    mergeSort(a);
+    arr = a;
+    reBalance()
+}
 function reBalance() {
     console.clear()
     tree = new BST();
@@ -335,7 +346,7 @@ function depth() {
 function isBalanced() {
     console.log('isBalanced : ', tree.isBalanced())
 }
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+var arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 mergeSort(arr);
 
